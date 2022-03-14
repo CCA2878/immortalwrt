@@ -776,7 +776,19 @@ function apcli_connect(dev, vif)
         os.execute("iwpriv "..vifname.." set ApCliWPAPSK="..cfgs.ApCliWPAPSK)
     end
     os.execute("iwpriv "..vifname.." set ApCliSsid=\""..cfgs.ApCliSsid.."\"")
+    os.execute("iwpriv "..vifname.." set ApCliAutoConnect=3")
     os.execute("iwpriv "..vifname.." set ApCliEnable=1")
+    os.execute("uci set network.wan.ifname=\""..vifname.."\"")
+    os.execute("uci commit")
+    wifi1name="ra0"
+    wifi2name="rai0"
+    os.execute("ubus call network.interface.lan add_device \"{\\\"name\\\":\\\""..wifi1name.."\\\"}\"")
+    os.execute("ubus call network.interface.lan add_device \"{\\\"name\\\":\\\""..wifi2name.."\\\"}\"")
+    wanname="wan"
+    os.execute("ubus call network.interface.wan remove_device \"{\\\"name\\\":\\\""..wanname.."\\\"}\"")
+    os.execute("ubus call network.interface.wan add_device \"{\\\"name\\\":\\\""..vifname.."\\\"}\"")
+    os.execute("ifdown wan")
+    os.execute("ifup wan")
     luci.http.redirect(luci.dispatcher.build_url("admin", "network", "wifi"))
 end
 
@@ -797,6 +809,17 @@ function apcli_disconnect(dev, vif)
     mtkwifi.save_profile(cfgs, profiles[devname])
     os.execute("iwpriv "..vifname.." set ApCliEnable=0")
     os.execute("ifconfig "..vifname.." down")
+    os.execute("uci set network.wan.ifname=wan")
+    os.execute("uci commit")
+    wifi1name="ra0"
+    wifi2name="rai0"
+    os.execute("ubus call network.interface.lan add_device \"{\\\"name\\\":\\\""..wifi1name.."\\\"}\"")
+    os.execute("ubus call network.interface.lan add_device \"{\\\"name\\\":\\\""..wifi2name.."\\\"}\"")
+    os.execute("ubus call network.interface.wan remove_device \"{\\\"name\\\":\\\""..vifname.."\\\"}\"")
+    wanname="wan"
+    os.execute("ubus call network.interface.wan add_device \"{\\\"name\\\":\\\""..wanname.."\\\"}\"") 
+    os.execute("ifdown wan")
+    os.execute("ifup wan") 
     luci.http.redirect(luci.dispatcher.build_url("admin", "network", "wifi"))
 end
 

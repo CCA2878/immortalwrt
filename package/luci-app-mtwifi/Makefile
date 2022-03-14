@@ -23,9 +23,11 @@ define Package/l1profile/install
 	$(INSTALL_DIR) $(1)/etc/wireless/mt7615/
 	$(INSTALL_DIR) $(1)/etc_ro/Wireless/RT2860AP/
 	$(INSTALL_BIN) ./files/l1profile.dat $(1)/etc/wireless/
+	$(INSTALL_BIN) ./files/mt7615.1.dat $(1)/etc/wireless/mt7615/
 	$(INSTALL_BIN) ./files/mt7615.2.dat $(1)/etc/wireless/mt7615/
 	$(INSTALL_BIN) ./files/mt7615.lua $(1)/lib/wifi
 	$(INSTALL_BIN) ./files/firmware.sh $(1)/etc/init.d/
+	$(INSTALL_BIN) ./files/apcli.sh $(1)/etc/init.d/
 endef
 
 

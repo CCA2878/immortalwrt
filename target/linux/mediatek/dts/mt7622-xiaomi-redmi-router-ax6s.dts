@@ -240,7 +240,6 @@
  		partition@c0000 {
  			label = "u-boot";
  			reg = <0xc0000 0x80000>;
- 			read-only;
  		};
 
  		partition@140000 {
