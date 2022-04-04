@@ -1,0 +1,21 @@
+diff -u -r a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
+--- a/drivers/net/phy/Kconfig	2022-03-19 21:19:35.582096000 +0800
++++ b/drivers/net/phy/Kconfig	2022-03-22 19:41:49.906506705 +0800
+@@ -134,7 +134,7 @@
+ 	select SWCONFIG
+ 
+ endif # RTL8366_SMI
+-
++source "drivers/net/phy/mtk/mt753x/Kconfig"
+ comment "MII PHY device drivers"
+ 
+ config AMD_PHY
+ 
+diff -u -r a/drivers/net/phy/Makefile b/drivers/net/phy/Makefile
+--- a/drivers/net/phy/Makefile	2022-03-19 21:19:35.582096000 +0800
++++ b/drivers/net/phy/Makefile	2022-03-22 19:42:06.803528022 +0800
+@@ -95,3 +95,4 @@
+ obj-$(CONFIG_TERANETICS_PHY)	+= teranetics.o
+ obj-$(CONFIG_VITESSE_PHY)	+= vitesse.o
+ obj-$(CONFIG_XILINX_GMII2RGMII) += xilinx_gmii2rgmii.o
++obj-$(CONFIG_MT753X_GSW)        += mtk/mt753x/

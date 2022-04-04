@@ -318,6 +318,13 @@ if next(diff) ~= nil then
                 </td>
                 <td></td>
             </tr>
+            <tr>
+                <td>弱信号剔除</td>
+                <td>
+                    <input name="KickStaRssiLow" value="<%=cfgs.KickStaRssiLow%>" />dbm(范围0到-100，-100最不容易剔除,推荐-85)
+                </td>
+                <td></td>
+            </tr
             <% end %>
             <% if cfgs.TxPreamble then %>
             <tr>

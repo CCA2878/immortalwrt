@@ -6,11 +6,7 @@ PKG_RELEASE=4
 PKG_LICENSE:=GPLv2
 PKG_LICENSE_FILES:=
 
-PKG_SOURCE_URL:=https://github.com/meisreallyba/mt76
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2022-03-06
-PKG_SOURCE_VERSION:=cbe14f2c5354f113481307e82d839167f529fe5e
-PKG_MIRROR_HASH:=
+PKG_VERSION:=wed
 
 PKG_MAINTAINER:=Felix Fietkau <nbd@nbd.name>
 PKG_USE_NINJA:=0
@@ -234,9 +230,17 @@ define KernelPackage/mt7921-common
   FILES:= $(PKG_BUILD_DIR)/mt7921/mt7921-common.ko
 endef
 
+define KernelPackage/mt7921u
+  $(KernelPackage/mt76-default)
+  TITLE:=MediaTek MT7921U wireless driver
+  DEPENDS+=+kmod-mt76-usb +kmod-mt7921-common
+  FILES:= $(PKG_BUILD_DIR)/mt7921/mt7921u.ko
+  AUTOLOAD:=$(call AutoProbe,mt7921u)
+endef
+
 define KernelPackage/mt7921s
   $(KernelPackage/mt76-default)
-  TITLE:=MediaTek MT7921s wireless driver
+  TITLE:=MediaTek MT7921S wireless driver
   DEPENDS+=+kmod-mt76-sdio +kmod-mt7921-common
   FILES:= $(PKG_BUILD_DIR)/mt7921/mt7921s.ko
   AUTOLOAD:=$(call AutoProbe,mt7921s)
@@ -338,6 +342,9 @@ ifdef CONFIG_PACKAGE_kmod-mt7915e
 endif
 ifdef CONFIG_PACKAGE_kmod-mt7921-common
   PKG_MAKE_FLAGS += CONFIG_MT7921_COMMON=m
+endif
+ifdef CONFIG_PACKAGE_kmod-mt7921u
+  PKG_MAKE_FLAGS += CONFIG_MT7921U=m
 endif
 ifdef CONFIG_PACKAGE_kmod-mt7921s
   PKG_MAKE_FLAGS += CONFIG_MT7921S=m
@@ -475,6 +482,7 @@ $(eval $(call KernelPackage,mt7663u))
 $(eval $(call KernelPackage,mt7663s))
 $(eval $(call KernelPackage,mt7915e))
 $(eval $(call KernelPackage,mt7921-common))
+$(eval $(call KernelPackage,mt7921u))
 $(eval $(call KernelPackage,mt7921s))
 $(eval $(call KernelPackage,mt7921e))
 $(eval $(call KernelPackage,mt76))

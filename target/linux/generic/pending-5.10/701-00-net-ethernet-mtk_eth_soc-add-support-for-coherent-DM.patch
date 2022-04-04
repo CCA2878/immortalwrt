@@ -292,7 +292,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
  #define RSTCTRL_FE		BIT(6)
  #define RSTCTRL_PPE		BIT(31)
  
-+/* ethernet dma channel agent map */
++#define RSTCTRL_ETH		BIT(23)
 +#define ETHSYS_DMA_AG_MAP	0x408
 +#define ETHSYS_DMA_AG_MAP_PDMA	BIT(0)
 +#define ETHSYS_DMA_AG_MAP_QDMA	BIT(1)

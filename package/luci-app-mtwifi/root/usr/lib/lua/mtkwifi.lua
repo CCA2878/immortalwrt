@@ -486,7 +486,6 @@ function mtkwifi.search_dev_and_profile_orig()
     if not dir then return end
     local result = {}
     result["mt7615.1.dat"] = "/etc/wireless/mt7615/mt7615.1.dat"
-    result["mt7615.2.dat"] = "/etc/wireless/mt7615/mt7615.2.dat"
     -- case 1: mt76xx.dat (best)
     -- case 2: mt76xx.n.dat (multiple card of same dev)
     -- case 3: mt76xx.n.nG.dat (case 2 plus dbdc and multi-profile, bloody hell....)

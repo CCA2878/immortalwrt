@@ -68,8 +68,8 @@ Signed-off-by: Pablo Neira Ayuso <pablo@netfilter.org>
  
 +static bool nft_is_valid_ether_device(const struct net_device *dev)
 +{
-+	if (!dev || (dev->flags & IFF_LOOPBACK) || dev->type != ARPHRD_ETHER ||
-+	    dev->addr_len != ETH_ALEN || !is_valid_ether_addr(dev->dev_addr))
++	if (!dev || (dev->flags & IFF_LOOPBACK) )
++
 +		return false;
 +
 +	return true;

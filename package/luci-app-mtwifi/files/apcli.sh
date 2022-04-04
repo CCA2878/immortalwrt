@@ -13,6 +13,10 @@ start() {
 	iwpriv apclii0 set "$ssid"
 	iwpriv apclii0 set ApCliAutoConnect=3
     	iwpriv apclii0 set "$enable"
+    	kick=$(grep -e "KickStaRssiLow=" /etc/wireless/mt7615/mt7615.1.dat)
+    	iwpriv ra0 set "$kick"
+    	kick=$(grep -e "KickStaRssiLow=" /etc/wireless/mt7615/mt7615.2.dat)
+    	iwpriv rai0 set "$kick"
 }
 
 

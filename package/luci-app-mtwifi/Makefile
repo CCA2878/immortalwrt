@@ -14,7 +14,6 @@ endef
 
 define Package/l1profile
   TITLE:=l1profile init script
-  DEPENDS:= luci-app-mtwifi
 endef
 
 define Package/l1profile/install

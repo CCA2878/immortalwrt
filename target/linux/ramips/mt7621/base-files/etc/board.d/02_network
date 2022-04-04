@@ -38,19 +38,18 @@ ramips_setup_interfaces()
 		ucidef_set_interfaces_lan_wan "lan" "wan"
 		;;
 	asiarf,ap7621-nv1|\
+	beeline,smartbox-flash|\
 	glinet,gl-mt1300|\
 	iptime,a3002mesh|\
 	jcg,q20|\
 	lenovo,newifi-d1|\
 	mikrotik,routerboard-m33g|\
+	renkforce,ws-wn530hp3-a|\
 	xiaomi,mi-router-3g|\
 	xiaomi,mi-router-3g-v2|\
 	xiaomi,mi-router-4|\
 	xiaomi,mi-router-4a-gigabit)
 		ucidef_set_interfaces_lan_wan "lan1 lan2" "wan"
-		;;
-	dlink,dir-x1860)
-		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4" "eth1"
 		;;
 	gnubee,gb-pc1|\
 	gnubee,gb-pc2)
@@ -66,8 +65,12 @@ ramips_setup_interfaces()
 	mikrotik,routerboard-760igs)
 		ucidef_set_interfaces_lan_wan "lan2 lan3 lan4 lan5" "wan sfp"
 		;;
-	tplink,eap235-wall-v1)
+	tplink,eap235-wall-v1|\
+	tplink,eap615-wall-v1)
 		ucidef_set_interface_lan "lan0 lan1 lan2 lan3"
+		;;
+	tplink,tl-wpa8631p-v3)
+		ucidef_set_interface_lan "lan1 lan2 lan3 plc0"
 		;;
 	ubnt,edgerouter-x)
 		ucidef_set_interfaces_lan_wan "eth1 eth2 eth3 eth4" "eth0"
@@ -78,7 +81,6 @@ ramips_setup_interfaces()
 	ubnt,usw-flex)
 		ucidef_set_interface_lan "lan1 lan2 lan3 lan4 lan5"
 		;;
-	yuncore,ax820|\
 	zyxel,nr7101)
 		ucidef_set_interfaces_lan_wan "lan" "wan"
 		;;
@@ -114,6 +116,11 @@ ramips_setup_macs()
 		wan_mac=$(mtd_get_mac_ascii u-boot-env et1macaddr)
 		label_mac=$(mtd_get_mac_binary factory 0x4)
 		;;
+	beeline,smartbox-flash)
+		lan_mac=$(mtd_get_mac_ascii u-boot-env eth2macaddr)
+		wan_mac=$(mtd_get_mac_ascii u-boot-env eth3macaddr)
+		label_mac=$lan_mac
+		;;
 	buffalo,wsr-1166dhp)
 		local index="$(find_mtd_index "board_data")"
 		wan_mac="$(grep -m1 mac= "/dev/mtd${index}" | cut -d= -f2)"
@@ -122,11 +129,6 @@ ramips_setup_macs()
 	dlink,dir-860l-b1)
 		lan_mac=$(mtd_get_mac_ascii factory lanmac)
 		wan_mac=$(mtd_get_mac_ascii factory wanmac)
-		;;
-	dlink,dir-x1860)
-		lan_mac=$(mtd_get_mac_ascii u-boot-env lanmac)
-		label_mac=$lan_mac
-		wan_mac=$(macaddr_add "$lan_mac" 1)
 		;;
 	edimax,ra21s|\
 	edimax,rg21s)
@@ -183,19 +185,6 @@ ramips_setup_macs()
 		lan_mac=$(mtd_get_mac_ascii Config protest_lan_mac)
 		wan_mac=$(mtd_get_mac_ascii Config protest_wan_mac)
 		label_mac=$lan_mac
-		;;
-	wio,wio-one)
-		local ethaddr="$(mtd_get_mac_ascii u-boot-env ethaddr)"
-		lan_mac=$(mtd_get_mac_binary factory 40)
-		wan_mac=$(mtd_get_mac_binary factory 46)
-		[ "$ethaddr" = "00:AA:BB:CC:DD:EE" -o "${lan_mac%%:ff:ff:ff}" != "$lan_mac" ] && {
-			lan_mac=$(mtd_get_mac_binary factory 57344)
-			wan_mac=$(mtd_get_mac_binary factory 57350)
-		}
-		label_mac=$lan_mac
-		;;
-	yuncore,ax820)
-		label_mac=$(mtd_get_mac_binary Factory 0x4)
 		;;
 	esac
 
